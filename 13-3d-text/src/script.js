@@ -21,7 +21,7 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('/textures/matcaps/4.png')
+const matcapTexture = textureLoader.load('/textures/matcaps/2.png')
 
 /**
  * Fonts
@@ -31,7 +31,7 @@ fontLoader.load(
     '/fonts/tiro_gurmukhi_regular.json',
     (font) => {
         const textGeometry = new TextGeometry(
-            'StoryBrand',
+            'collincodes.',
             {
                 font,
                 size: 0.5,
@@ -51,17 +51,26 @@ fontLoader.load(
         scene.add(text)
 
         const torusGeometry = new THREE.TorusGeometry(0.5, 0.2, 20, 45)
-        for (let index = 0; index < 150; index++) {
+        const cubeGeometry = new THREE.BoxGeometry()
+        
+        for (let index = 0; index < 50; index++) {
             const torus = new THREE.Mesh(torusGeometry, material)
-            torus.position.set(
-                (Math.random() - 0.5) * 10, 
-                (Math.random() - 0.5) * 10, 
-                (Math.random() - 0.5) * 10
-            )
-            torus.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0)
-            const scale = Math.min(Math.random() + 0.25, 0.5)
-            torus.scale.set(scale, scale, scale)
-            scene.add(torus)
+            const cube = new THREE.Mesh(cubeGeometry, material)
+
+            Array(torus, cube).map(e => {
+                e.position.set(
+                    (Math.random() - 0.5) * 10, 
+                    (Math.random() - 0.5) * 10, 
+                    (Math.random() - 0.5) * 10
+                )
+
+                e.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0)
+
+                const scale = Math.min(Math.random() + 0.15, 0.45)
+                e.scale.set(scale, scale, scale)
+            })
+
+            scene.add(torus, cube)
         }
 
         // gui.add(text.position, 'x', -2, 2, 0.01)
